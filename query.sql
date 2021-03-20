@@ -69,3 +69,10 @@ SELECT * FROM sport
 
 SELECT * FROM teams
 
+SELECT COUNT(athletes.name), athletes.name
+FROM athletes
+INNER JOIN medals ON
+athletes.athlete_id = medals.athlete_id
+WHERE medals.medal = 'Gold' AND athletes.sex = 'F'
+GROUP BY athletes.name
+ORDER BY athletes.count DESC;
