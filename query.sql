@@ -9,38 +9,47 @@ notes TEXT
 CREATE TABLE  teams(
 id SERIAL PRIMARY KEY,
 athlete_id INT,
-team TEXT,
-noc TEXT
+team TEXT
 );
 
-CREATE TABLE  athletes(
+CREATE TABLE  athlete (
 id SERIAL PRIMARY KEY,
 athlete_id INT,
 name TEXT,
+sex TEXT
+);
+
+CREATE TABLE  athlete_data(
+id SERIAL PRIMARY KEY,
+athlete_id INT,
+year INT,
 sex TEXT,
 age float,
 height float,
-weight float
+weight float,
+team TEXT
 );
 
 CREATE TABLE  sport(
 id SERIAL PRIMARY KEY,
 athlete_id INT,
-sport TEXT
+sport TEXT,
+event TEXT
 );
 
 CREATE TABLE  medals(
 id SERIAL PRIMARY KEY,    
 athlete_id INT,
+year INT,
 medal TEXT,
 event TEXT
 );
 
 CREATE TABLE  games(
 id SERIAL PRIMARY KEY, 
+year INT,
 noc TEXT,
 games TEXT,
-year TEXT,
 season TEXT,
 city TEXT
 );
@@ -57,7 +66,9 @@ closing_ceremony TEXT
 
 SELECT * FROM venues
 
-SELECT * FROM athletes
+SELECT * FROM athlete
+
+SELECT * FROM athlete_data
 
 SELECT * FROM games
 
@@ -69,10 +80,16 @@ SELECT * FROM sport
 
 SELECT * FROM teams
 
-SELECT COUNT(athletes.name), athletes.name
-FROM athletes
+SELECT COUNT(athlete.name), athlete.name
+FROM athlete
 INNER JOIN medals ON
-athletes.athlete_id = medals.athlete_id
-WHERE medals.medal = 'Gold' AND athletes.sex = 'F'
-GROUP BY athletes.name
-ORDER BY athletes.count DESC;
+athlete.athlete_id = medals.athlete_id
+WHERE medals.medal = 'Gold' AND athlete.sex = 'F'
+GROUP BY athlete.name 
+ORDER BY athlete.count DESC;
+
+SELECT COUNT(medals.event), medals.event
+FROM medals
+WHERE medals.medal = 'Gold' 
+GROUP BY medals.event 
+ORDER BY medals.count DESC;
